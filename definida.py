@@ -8,7 +8,7 @@ x=Symbol('x')
 
 class AppDefinida(Frame):
     def __init__(self, root=  None):
-        super().__init__(root,width=650,height=500)
+        super().__init__(root,width=650,height=500,background="#e6ffd1")
         self.root=root
         self.pack()
         self.createWidget()
@@ -20,7 +20,7 @@ class AppDefinida(Frame):
             self.BoxTextLimiteInferior.insert(END,fuction)
         elif(self.BoxTextLimiteSuperior.focus_get()==self.BoxTextLimiteSuperior):
             self.BoxTextLimiteSuperior.insert(END,fuction)
-         
+
     
     def clearTextInputAll(self):
         
@@ -36,10 +36,11 @@ class AppDefinida(Frame):
         self.BoxText.delete(0,END) 
         self.BoxText1.delete(0,END)
         self.BoxTextLimiteInferior.delete(0,END)
-        self.BoxTextLimiteSuperior.delete(0,END)  
-        self.BoxText.focus() 
+        self.BoxTextLimiteSuperior.delete(0,END) 
+        self.BoxText.focus();  
 
     def clearTextInputOne(self):
+        
         if(self.BoxText.focus_get()==self.BoxText):
             contador=self.BoxText.get()
             contador=len(contador)
@@ -62,111 +63,137 @@ class AppDefinida(Frame):
             contador-=1
             self.BoxText1.delete(contador,END)
             
+    ##--------------> Funcion para integrar<---------------------------------
     def integrar(self):
         try:
             if(self.BoxText.get()!="" and self.BoxTextLimiteInferior.get()!="" and self.BoxTextLimiteSuperior.get()!=""):
                 self.BoxText1.delete(0,END)
-                print(self.BoxText.get())
-                print(self.BoxTextLimiteInferior.get())
-                print(self.BoxTextLimiteSuperior.get())
-                
-                #h=integrate(self.BoxText.get(), (x, -pi/2, pi/2))
-                print(integrate(self.BoxText.get(), (x, self.BoxTextLimiteInferior.get(), self.BoxTextLimiteSuperior.get())))
                 self.BoxText1.insert(END,integrate(self.BoxText.get(), (x, self.BoxTextLimiteInferior.get(), self.BoxTextLimiteSuperior.get())))
             else:
                 self.BoxText1.delete(0,END)
-                MessageBox.showerror("Alerta!", "Asegurese de completar todos los campos \n antes de integrar.") 
+                self.BoxText1.insert(END,"Error..complete todos los campos.") 
         except SympifyError:
-            MessageBox.showerror("Alerta!", "Asegurese de escribir su expresión \ncorrectamente y vuelva a intentar.")
-
+            self.BoxText1.insert(END,"Error.")
+            
+    ##--------------> creación de los widget<---------------------------------
     def createWidget(self):
-        self.bo7=Button(self,text="x",padx=19,pady=10,command=lambda:self.setFuction("*"))
-        self.bo7.place(x=120,y=145)
-        self.bo7=Button(self,text="÷",padx=19,pady=10,command=lambda:self.setFuction("/"))
+        self.box=Button(self,text="x",padx=19,pady=10,relief="solid",background = "#e8cae2",command=lambda:self.setFuction("*"))
+        self.box.place(x=120,y=145)
+        
+        
+        self.bo7=Button(self,text="÷",padx=19,pady=10,relief="solid",background = "#e8cae2",command=lambda:self.setFuction("/"))
         self.bo7.place(x=180,y=145)
-        self.bo7=Button(self,text="+",padx=19,pady=10,command=lambda:self.setFuction("+"))
-        self.bo7.place(x=240,y=145)
-        self.bo7=Button(self,text="-",padx=19,pady=10,command=lambda:self.setFuction("-"))
-        self.bo7.place(x=300,y=145)
-        self.bo7=Button(self,text="1",padx=19,pady=10,command=lambda:self.setFuction("1"))
-        self.bo7.place(x=120,y=195)
-        self.bo7=Button(self,text="2",padx=19,pady=10,command=lambda:self.setFuction("2"))
-        self.bo7.place(x=180,y=195)
-        self.bo7=Button(self,text="3",padx=19,pady=10,command=lambda:self.setFuction("3"))
-        self.bo7.place(x=240,y=195)
-        self.bo8=Button(self,text="Log",padx=12,pady=10,command=lambda:self.setFuction("log"))
-        self.bo8.place(x=300,y=195)
-        self.bo8=Button(self,text="sin",padx=12,pady=10,command=lambda:self.setFuction("sin"))
-        self.bo8.place(x=360,y=195)
-        self.bo8=Button(self,text="cos",padx=12,pady=10,command=lambda:self.setFuction("cos"))
-        self.bo8.place(x=420,y=195)
-        self.bo8=Button(self,text="tan",padx=12,pady=10,command=lambda:self.setFuction("tan"))
-        self.bo8.place(x=480,y=195)
-        self.bo8=Button(self,text="4",padx=19,pady=10,command=lambda:self.setFuction("4"))
-        self.bo8.place(x=120,y=245)
-        self.bo8=Button(self,text="5",padx=19,pady=10,command=lambda:self.setFuction("5"))
-        self.bo8.place(x=180,y=245)
-        self.bo8=Button(self,text="6",padx=19,pady=10,command=lambda:self.setFuction("6"))
-        self.bo8.place(x=240,y=245)
-        self.bo8=Button(self,text="x",padx=17,pady=10,command=lambda:self.setFuction("x"))
-        self.bo8.place(x=300,y=245)
-        self.bo8=Button(self,text="csc",padx=12,pady=10,command=lambda:self.setFuction("csc"))
-        self.bo8.place(x=360,y=245)
-        self.bo8=Button(self,text="sec",padx=12,pady=10,command=lambda:self.setFuction("sec"))
-        self.bo8.place(x=420,y=245)
-        self.bo8=Button(self,text="cot",padx=12,pady=10,command=lambda:self.setFuction("cot"))
-        self.bo8.place(x=480,y=245)
-        self.bo7=Button(self,text="7",padx=19,pady=10,command=lambda:self.setFuction("7"))
+        
+        self.boDi=Button(self,text="+",padx=19,pady=10,relief="solid",background = "#e8cae2",command=lambda:self.setFuction("+"))
+        self.boDi.place(x=240,y=145)
+        
+        self.boRe=Button(self,text="-",padx=19,pady=10,relief="solid",background = "#e8cae2",command=lambda:self.setFuction("-"))
+        self.boRe.place(x=300,y=145)
+        
+        self.bo1=Button(self,text="1",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("1"))
+        self.bo1.place(x=120,y=195)
+        
+        self.bo2=Button(self,text="2",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("2"))
+        self.bo2.place(x=180,y=195)
+        
+        self.bo3=Button(self,text="3",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("3"))
+        self.bo3.place(x=240,y=195)
+        
+        self.boLog=Button(self,text="Log",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("log("))
+        self.boLog.place(x=300,y=195)
+        
+        self.boSin=Button(self,text="sin",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("sin("))
+        self.boSin.place(x=360,y=195)
+        
+        self.boCos=Button(self,text="cos",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("cos("))
+        self.boCos.place(x=420,y=195)
+        
+        self.boTan=Button(self,text="tan",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("tan("))
+        self.boTan.place(x=480,y=195)
+        
+        self.bo4=Button(self,text="4",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("4"))
+        self.bo4.place(x=120,y=245)
+        
+        self.bo5=Button(self,text="5",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("5"))
+        self.bo5.place(x=180,y=245)
+        
+        self.bo6=Button(self,text="6",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("6"))
+        self.bo6.place(x=240,y=245)
+        
+        self.boxVa=Button(self,text="x",padx=19,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("x"))
+        self.boxVa.place(x=300,y=245)
+        
+        self.boCsc=Button(self,text="csc",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("csc("))
+        self.boCsc.place(x=360,y=245)
+        
+        self.boSec=Button(self,text="sec",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("sec("))
+        self.boSec.place(x=420,y=245)
+        
+        self.boCot=Button(self,text="cot",padx=12,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("cot("))
+        self.boCot.place(x=480,y=245)
+        
+        self.bo7=Button(self,text="7",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("7"))
         self.bo7.place(x=120,y=295)
-        self.bo7=Button(self,text="8",padx=19,pady=10,command=lambda:self.setFuction("8"))
-        self.bo7.place(x=180,y=295)
-        self.bo7=Button(self,text="9",padx=19,pady=10,command=lambda:self.setFuction("9"))
-        self.bo7.place(x=240,y=295)
-        self.bo7=Button(self,text="x^",padx=15,pady=10,command=lambda:self.setFuction("x**"))
+        
+        self.bo8=Button(self,text="8",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("8"))
+        self.bo8.place(x=180,y=295)
+        
+        self.bo9=Button(self,text="9",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("9"))
+        self.bo9.place(x=240,y=295)
+        
+        self.bo7=Button(self,text="x^",padx=15,pady=10,relief="solid",background ="#abd3e3",command=lambda:self.setFuction("x**"))
         self.bo7.place(x=300,y=295)
         
-        self.bo7=Button(self,text="Limpirar\n todo",padx=57,pady=28,command=self.ClerarAll)
-        self.bo7.place(x=360,y=295)
+        self.boPoten=Button(self,text="Limpiar\n todo",padx=61,pady=28,relief="solid",background="#f9f4af",command=self.ClerarAll)
+        self.boPoten.place(x=360,y=295)
         
-        self.bo7=Button(self,text="0",padx=19,pady=10,command=lambda:self.setFuction("0"))
-        self.bo7.place(x=120,y=345)
-        self.bo7=Button(self,text=".",padx=21,pady=10,command=lambda:self.setFuction("."))
-        self.bo7.place(x=180,y=345)
-        self.bo7=Button(self,text="AC",padx=14,pady=10,command=self.clearTextInputAll)
-        self.bo7.place(x=240,y=345)
-        self.bo7=Button(self,text="√",padx=18,pady=10,command=lambda:self.setFuction("sqrt"))
-        self.bo7.place(x=300,y=345)
+        self.bo0=Button(self,text="0",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("0"))
+        self.bo0.place(x=120,y=345)
         
-        self.bo7=Button(self,text="(",padx=19,pady=10,command=lambda:self.setFuction("("))
-        self.bo7.place(x=120,y=395)
-        self.bo7=Button(self,text=")",padx=19,pady=10,command=lambda:self.setFuction(")"))
-        self.bo7.place(x=180,y=395)
-        self.bo7=Button(self,text="π",padx=19,pady=10,command=lambda:self.setFuction("pi"))
-        self.bo7.place(x=240,y=395)
-        self.bo7=Button(self,text="e",padx=19,pady=10,command=lambda:self.setFuction("e"))
+        self.boPunto=Button(self,text=".",padx=21,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("."))
+        self.boPunto.place(x=180,y=345)
+        
+        self.boEliTodo=Button(self,text="AC",padx=14,pady=10,relief="solid",background="#f9f4af",command=self.clearTextInputAll)
+        self.boEliTodo.place(x=240,y=345)
+        
+        self.boRaiz=Button(self,text="√",padx=18,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("sqrt("))
+        self.boRaiz.place(x=300,y=345)
+        
+        self.boParen=Button(self,text="(",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction("("))
+        self.boParen.place(x=120,y=395)
+        
+        self.boParent1=Button(self,text=")",padx=19,pady=10,relief="solid",background = "gray",command=lambda:self.setFuction(")"))
+        self.boParent1.place(x=180,y=395)
+        
+        self.boPi=Button(self,text="π",padx=19,pady=10,relief="solid",background="#abd3e3",command=lambda:self.setFuction("pi"))
+        self.boPi.place(x=240,y=395)
+        
+        self.bo7=Button(self,text="e",padx=19,pady=10,relief="solid",background="#abd3e3",command=lambda:self.setFuction("e("))
         self.bo7.place(x=300,y=395)
-        self.bo7=Button(self,text="DEL",padx=19,pady=10,command=self.clearTextInputOne)
-        self.bo7.place(x=360,y=395)
-        self.bo7=Button(self,text="Integrar",padx=23,pady=10,command=self.integrar)
-        self.bo7.place(x=435,y=395)
-
-        Label(self,text="Función",font=("verdana",8,BOLD)).place(x=120,y=10)
-        Label(self,text="Lim inferior",font=("verdana",8,BOLD)).place(x=350,y=10)
-        Label(self,text="Lim superior",font=("verdana",8,BOLD)).place(x=450,y=10)
-        Label(self,text="Resultado",font=("verdana",8,BOLD)).place(x=120,y=75)
-        Label(self,text="Fun. Trigonométricas",font=("verdana",9,BOLD)).place(x=376,y=158)
         
-        self.BoxText=Entry(self,font="Arial 13")
+        self.boDel1=Button(self,text="DEL",padx=19,pady=10,relief="solid",background="#f9f4af",command=self.clearTextInputOne)
+        self.boDel1.place(x=360,y=395)
+        
+        self.bointe=Button(self,text="Integrar",padx=23,pady=10,relief="solid",background="#0a729d",command=self.integrar)
+        self.bointe.place(x=435,y=395)
+
+        Label(self,text="Función",background="#e6ffd1",font=("verdana",8,BOLD)).place(x=120,y=10)
+        Label(self,text="Lim inferior",background="#e6ffd1",font=("verdana",8,BOLD)).place(x=350,y=10)
+        Label(self,text="Lim superior",background="#e6ffd1",font=("verdana",8,BOLD)).place(x=450,y=10)
+        Label(self,text="Resultado",background="#e6ffd1",font=("verdana",8,BOLD)).place(x=120,y=75)
+        Label(self,text="Fun. Trigonométricas",background="#e6ffd1",font=("verdana",9,BOLD)).place(x=376,y=158)
+        
+        self.BoxText=Entry(self,relief="solid",justify='center',font="Arial 13")
         self.BoxText.place(x=120,y=40,width=200,height=30)
         self.BoxText.focus()
         
-        self.BoxTextLimiteInferior=Entry(self,font="Arial 13")
+        self.BoxTextLimiteInferior=Entry(self,relief="solid",justify='center',font="Arial 13")
         self.BoxTextLimiteInferior.place(x=350,y=40,width=70,height=30)
         
-        self.BoxTextLimiteSuperior=Entry(self,font="Arial 13")
+        self.BoxTextLimiteSuperior=Entry(self,relief="solid",justify='center',font="Arial 13")
         self.BoxTextLimiteSuperior.place(x=450,y=40,width=70,height=30)
         
-        self.BoxText1=Entry(self,font="Arial 13")
+        self.BoxText1=Entry(self,relief="solid",justify='center',font="Arial 13")
         self.BoxText1.place(x=120,y=100,width=398,height=40)
         
         
